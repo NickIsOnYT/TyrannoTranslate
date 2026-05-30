@@ -20,7 +20,6 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 ### Run
 
 ```bash
-cd TyrannoTranslate
 dotnet run --project TyrannoTranslate
 ```
 

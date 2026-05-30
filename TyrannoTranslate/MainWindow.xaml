@@ -4,6 +4,7 @@
         Title="TyrannoTranslate"
         Height="720" Width="1200"
         MinHeight="480" MinWidth="900"
+        Icon="Icon/logo.ico"
         Background="{StaticResource BgDark}"
         Foreground="{StaticResource TextPrimary}">
     <DockPanel>
@@ -17,6 +18,8 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Copy original → translation (selected)" Click="CopyOriginal_Click"/>
+                <MenuItem Header="_Auto-populate..." Click="AutoPopulate_Click"/>
+                <Separator/>
                 <MenuItem Header="Filter: _untranslated only" Click="ToggleFilter_Click" x:Name="FilterMenuItem" IsCheckable="True"/>
                 <MenuItem Header="Create .bak backup on save (once)" Click="ToggleBackup_Click" x:Name="BackupMenuItem" IsCheckable="True" IsChecked="True"/>
                 <MenuItem Header="Create .baktl progress snapshot on save" Click="ToggleProgressBackup_Click" x:Name="ProgressBackupMenuItem" IsCheckable="True" IsChecked="True"/>
@@ -61,14 +64,16 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Margin="0,0,0,8" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap"
-                       Text="Edit translations in the right column. Select and copy text from the Original column with the mouse or Ctrl+C. Tyrano tags in [brackets] must stay identical to the original line."/>
+                       Text="Edit translations in the right column. Drag row headers to resize rows. Tyrano tags in [brackets] must stay identical to the original line."/>
 
             <DataGrid x:Name="TranslationGrid"
                       Grid.Row="1"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
-                      HeadersVisibility="Column"
+                      CanUserResizeRows="True"
+                      HeadersVisibility="All"
+                      RowHeaderWidth="20"
                       GridLinesVisibility="All"
                       HorizontalGridLinesBrush="{StaticResource BorderColor}"
                       VerticalGridLinesBrush="{StaticResource BorderColor}"
@@ -83,9 +88,20 @@
                       ClipboardCopyMode="ExcludeHeader"
                       EnableRowVirtualization="True"
                       EnableColumnVirtualization="True"
-                      RowHeight="28"
+                      MinRowHeight="28"
                       FontFamily="Segoe UI"
                       FontSize="13">
+                <DataGrid.RowHeaderStyle>
+                    <Style TargetType="DataGridRowHeader">
+                        <Setter Property="Background" Value="{StaticResource HeaderBg}"/>
+                        <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
+                        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="Width" Value="20"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.RowHeaderStyle>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" Value="{StaticResource HeaderBg}"/>
@@ -100,7 +116,7 @@
                     <Style TargetType="DataGridCell">
                         <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
                         <Setter Property="BorderThickness" Value="0,0,1,0"/>
-                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="Padding" Value="4,2"/>
                         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -114,39 +130,35 @@
                     <DataGridTextColumn Header="#" Binding="{Binding LineNumber}" Width="48" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Ln" Binding="{Binding FileLineIndex, Converter={StaticResource LineDisplayConverter}}" Width="48" IsReadOnly="True"/>
                     <DataGridTextColumn Header="St" Binding="{Binding Status}" Width="36" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Original (Japanese)" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn Header="Original" Width="*" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Original, Mode=OneWay}"
                                          Style="{StaticResource ReadOnlyOriginalTextStyle}"
-                                         PreviewMouseLeftButtonDown="OriginalText_PreviewMouseLeftButtonDown"/>
+                                         PreviewMouseLeftButtonDown="OriginalText_PreviewMouseLeftButtonDown"
+                                         PreviewMouseRightButtonDown="CellText_PreviewMouseRightButtonDown"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Translation (English)" Binding="{Binding Translation, UpdateSourceTrigger=PropertyChanged}" Width="*" >
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style TargetType="TextBox">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="AcceptsReturn" Value="False"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-                                <Setter Property="Padding" Value="4"/>
-                                <Setter Property="ContextMenu" Value="{DynamicResource EditableTextContextMenu}"/>
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding HasError}" Value="True">
-                                        <Setter Property="Foreground" Value="#FF6B6B"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Translation" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Translation, UpdateSourceTrigger=PropertyChanged}"
+                                         PreviewMouseLeftButtonDown="TranslationText_PreviewMouseLeftButtonDown"
+                                         PreviewMouseRightButtonDown="CellText_PreviewMouseRightButtonDown">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox" BasedOn="{StaticResource EditableTranslationTextStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasError}" Value="True">
+                                                    <Setter Property="Foreground" Value="#FF6B6B"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

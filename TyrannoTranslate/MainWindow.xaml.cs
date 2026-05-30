@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
 using TyrannoTranslate.Converters;
+using TyrannoTranslate.Dialogs;
 using TyrannoTranslate.Models;
 using TyrannoTranslate.Services;
 
@@ -210,6 +211,34 @@ public partial class MainWindow : Window
     {
         if (sender is TextBox textBox)
             textBox.Focus();
+    }
+
+    private void TranslationText_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is TextBox textBox)
+            textBox.Focus();
+    }
+
+    private void CellText_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is TextBox textBox)
+        {
+            textBox.Focus();
+            e.Handled = true;
+        }
+    }
+
+    private void AutoPopulate_Click(object sender, RoutedEventArgs e)
+    {
+        if (_allEntries.Count == 0)
+        {
+            MessageBox.Show(this, "Open a file first.", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var dialog = new AutoPopulateDialog(this, _allEntries);
+        if (dialog.ShowDialog() == true)
+            UpdateStatus();
     }
 
     private void CopyOriginal_Click(object sender, RoutedEventArgs e)

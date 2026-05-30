@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon></ApplicationIcon>
+    <ApplicationIcon>Icon\logo.ico</ApplicationIcon>
     <RootNamespace>TyrannoTranslate</RootNamespace>
     <AssemblyName>TyrannoTranslate</AssemblyName>
     <PublishSingleFile>true</PublishSingleFile>
@@ -14,5 +14,9 @@
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Icon\logo.ico" />
+  </ItemGroup>
 
 </Project>

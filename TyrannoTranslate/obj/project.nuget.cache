@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zk32SaN6YZk=",
+  "dgSpecHash": "riJ3hRgD37w=",
   "success": true,
-  "projectFilePath": "c:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
+  "projectFilePath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nicks\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.27\\microsoft.net.illink.tasks.8.0.27.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.27\\microsoft.netcore.app.ref.8.0.27.nupkg.sha512",
