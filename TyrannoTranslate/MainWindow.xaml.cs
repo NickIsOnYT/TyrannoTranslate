@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using TyrannoTranslate.Converters;
 using TyrannoTranslate.Dialogs;
+using TyrannoTranslate.Helpers;
 using TyrannoTranslate.Models;
 using TyrannoTranslate.Services;
 
@@ -219,14 +220,16 @@ public partial class MainWindow : Window
             textBox.Focus();
     }
 
-    private void CellText_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    private void TranslationGrid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is TextBox textBox)
-        {
-            textBox.Focus();
-            e.Handled = true;
-        }
+        if (TextSelectionContextHelper.FindTextBoxInCell(e.OriginalSource as DependencyObject) is not { } textBox)
+            return;
+
+        TextSelectionContextHelper.PrepareContextMenu(textBox, e);
     }
+
+    private void GridText_ContextMenuOpening(object sender, ContextMenuEventArgs e) =>
+        TextSelectionContextHelper.OnContextMenuOpening(sender, e);
 
     private void AutoPopulate_Click(object sender, RoutedEventArgs e)
     {

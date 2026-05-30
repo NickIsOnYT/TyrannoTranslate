@@ -24,14 +24,13 @@
                    Text="Find rows whose Original text contains the search text, then fill Translation by replacing each match."/>
 
         <TextBlock Grid.Row="1" Text="Find in Original:" Margin="0,0,0,6"/>
-        <TextBox x:Name="FindBox" Grid.Row="2" Margin="0,0,0,12" Padding="8,6"
-                 Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}"
-                 BorderBrush="{DynamicResource BorderColor}" TextChanged="FindBox_TextChanged"/>
+        <TextBox x:Name="FindBox" Grid.Row="2" Margin="0,0,0,12"
+                 Style="{StaticResource DialogTextBoxStyle}"
+                 TextChanged="FindBox_TextChanged"/>
 
         <TextBlock Grid.Row="3" Text="Replace with:" Margin="0,0,0,6"/>
-        <TextBox x:Name="ReplaceBox" Grid.Row="4" Margin="0,0,0,12" Padding="8,6"
-                 Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}"
-                 BorderBrush="{DynamicResource BorderColor}"/>
+        <TextBox x:Name="ReplaceBox" Grid.Row="4" Margin="0,0,0,12"
+                 Style="{StaticResource DialogTextBoxStyle}"/>
 
         <CheckBox x:Name="MatchCaseBox" Grid.Row="5" Content="Match case" Margin="0,0,0,8"
                   Foreground="{DynamicResource TextPrimary}" Checked="MatchCaseBox_Changed" Unchecked="MatchCaseBox_Changed"/>
