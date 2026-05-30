@@ -42,7 +42,6 @@ Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTran
 
 | Original | Translation |
 |----------|-------------|
-| `（もう日も暮れた。そろそろ食事にしよう…[p]` | `(The day is ending. Time to make dinner...[p]` |
-| `お食事…、悲鳴をあげていないのにご飯が頂けるんですか？[p]` | `A meal... I get food even though I didn't scream?[p]` |
+| `絶対的なゲーム[p]` | `Absolute Gaming[p]` |
 
 Do **not** change text inside `[brackets]` unless it is dialogue/narration outside those tags.
