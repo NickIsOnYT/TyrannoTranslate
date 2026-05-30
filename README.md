@@ -11,7 +11,9 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 - Save writes translations back into the `.ks` file.
 - Backup system for the original script file and your current progress.
 
-## Requirements
+## Developement
+
+### Requirements
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (Windows)
 
@@ -21,8 +23,6 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 cd TyrannoTranslate
 dotnet run --project TyrannoTranslate
 ```
-
-Or open `TyrannoTranslate.sln` in Visual Studio and press F5.
 
 ### Build
 
