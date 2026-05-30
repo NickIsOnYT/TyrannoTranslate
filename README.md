@@ -23,6 +23,14 @@ dotnet run --project TyrannoTranslate
 
 Or open `TyrannoTranslate.sln` in Visual Studio and press F5.
 
+## Single-file build (Windows x64)
+
+```bash
+dotnet publish TyrannoTranslate/TyrannoTranslate.csproj -c Release -r win-x64
+```
+
+Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTranslate.exe`
+
 ## Usage
 
 1. **File → Open** and choose a `.ks` file (e.g. `data/scenario/event.ks`).

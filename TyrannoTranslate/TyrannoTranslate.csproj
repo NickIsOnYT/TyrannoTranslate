@@ -9,6 +9,10 @@
     <ApplicationIcon></ApplicationIcon>
     <RootNamespace>TyrannoTranslate</RootNamespace>
     <AssemblyName>TyrannoTranslate</AssemblyName>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
   </PropertyGroup>
 
 </Project>
