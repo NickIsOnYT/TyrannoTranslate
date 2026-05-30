@@ -10,6 +10,7 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 - Includes dialogue, narration `（...）`, and character headers `#名前`.
 - Save writes translations back into the `.ks` file.
 - Backup system for the original script file and your current progress.
+- an auto-population system so you don't need to copy-paste the same thing 100 times
 
 ## Developement
 
