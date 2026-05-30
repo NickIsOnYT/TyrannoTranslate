@@ -19,6 +19,7 @@ public partial class MainWindow : Window
     private KsFileDocument? _document;
     private string? _currentFilePath;
     private bool _showUntranslatedOnly;
+    private bool _backupsEnabled = true;
 
     public MainWindow()
     {
@@ -85,8 +86,12 @@ public partial class MainWindow : Window
             StatusText.Text = "Open a TyranoScript .ks file to begin.";
         else if (errors > 0)
             StatusText.Text = $"{errors} row(s) have bracket mismatches — fix before saving.";
+        else if (_showUntranslatedOnly)
+            StatusText.Text = "Showing untranslated rows only.";
+        else if (!_backupsEnabled)
+            StatusText.Text = "Backups disabled — save will overwrite without creating a .bak file.";
         else
-            StatusText.Text = _showUntranslatedOnly ? "Showing untranslated rows only." : "Ready. Bracket tags [like this] are protected — copy them from the original.";
+            StatusText.Text = "Ready. Save creates a .bak copy of the on-disk file before overwriting.";
     }
 
     private void OpenFile_Click(object sender, RoutedEventArgs e) => OpenFile();
@@ -159,9 +164,23 @@ public partial class MainWindow : Window
         try
         {
             var content = KsWriter.BuildContent(_document.Lines, _allEntries);
+            string? backupPath = null;
+            if (_backupsEnabled && File.Exists(path))
+            {
+                KsBackupService.CreateBackupIfExists(path);
+                backupPath = KsBackupService.GetBackupPath(path);
+            }
+
             File.WriteAllText(path, content);
-            StatusText.Text = $"Saved to {path}";
-            MessageBox.Show(this, "File saved successfully.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            StatusText.Text = backupPath != null
+                ? $"Saved to {path} (backup: {backupPath})"
+                : $"Saved to {path}";
+
+            var message = backupPath != null
+                ? $"File saved successfully.\n\nBackup created:\n{backupPath}"
+                : "File saved successfully.";
+            MessageBox.Show(this, message, "Save", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
         {
@@ -187,6 +206,12 @@ public partial class MainWindow : Window
         _showUntranslatedOnly = !_showUntranslatedOnly;
         FilterMenuItem.IsChecked = _showUntranslatedOnly;
         _entriesView.Refresh();
+        UpdateStatus();
+    }
+
+    private void ToggleBackup_Click(object sender, RoutedEventArgs e)
+    {
+        _backupsEnabled = BackupMenuItem.IsChecked;
         UpdateStatus();
     }
 
