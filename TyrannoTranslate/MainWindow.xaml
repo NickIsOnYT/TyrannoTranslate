@@ -14,6 +14,9 @@
                 <MenuItem Header="_Save" Click="SaveFile_Click" InputGestureText="Ctrl+S" x:Name="SaveMenuItem"/>
                 <MenuItem Header="Save _As..." Click="SaveAsFile_Click"/>
                 <Separator/>
+                <MenuItem Header="Force _Save" Click="ForceSaveFile_Click" x:Name="ForceSaveMenuItem"/>
+                <MenuItem Header="Force Save _As..." Click="ForceSaveAsFile_Click"/>
+                <Separator/>
                 <MenuItem Header="E_xit" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Edit">
@@ -88,7 +91,10 @@
                       SelectionUnit="Cell"
                       ClipboardCopyMode="ExcludeHeader"
                       EnableRowVirtualization="True"
-                      EnableColumnVirtualization="True"
+                      EnableColumnVirtualization="False"
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.VirtualizationMode="Recycling"
+                      VirtualizingPanel.ScrollUnit="Pixel"
                       MinRowHeight="28"
                       FontFamily="Segoe UI"
                       FontSize="13">
@@ -144,7 +150,8 @@
                     <DataGridTemplateColumn Header="Translation" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Translation, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBox Text="{Binding Translation, UpdateSourceTrigger=LostFocus}"
+                                         LostFocus="TranslationText_LostFocus"
                                          PreviewMouseLeftButtonDown="TranslationText_PreviewMouseLeftButtonDown"
                                          ContextMenuOpening="GridText_ContextMenuOpening">
                                     <TextBox.Style>

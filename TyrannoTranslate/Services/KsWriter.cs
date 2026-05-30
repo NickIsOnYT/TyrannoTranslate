@@ -4,14 +4,14 @@ namespace TyrannoTranslate.Services;
 
 public static class KsWriter
 {
-    public static string BuildContent(string[] lines, IEnumerable<TranslationEntry> entries)
+    public static string BuildContent(string[] lines, IEnumerable<TranslationEntry> entries, bool ignoreValidation = false)
     {
         var output = (string[])lines.Clone();
         var errors = new List<string>();
 
         foreach (var entry in entries)
         {
-            if (entry.HasError)
+            if (!ignoreValidation && entry.HasError)
             {
                 errors.Add($"Line {entry.FileLineIndex + 1}: {entry.ValidationMessage}");
                 continue;
@@ -23,7 +23,7 @@ public static class KsWriter
             output[entry.FileLineIndex] = entry.Translation;
         }
 
-        if (errors.Count > 0)
+        if (!ignoreValidation && errors.Count > 0)
             throw new InvalidOperationException(string.Join(Environment.NewLine, errors));
 
         return string.Join(Environment.NewLine, output);

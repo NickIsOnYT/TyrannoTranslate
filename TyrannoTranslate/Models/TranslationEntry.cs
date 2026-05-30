@@ -32,7 +32,6 @@ public sealed class TranslationEntry : INotifyPropertyChanged
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsTranslated));
             OnPropertyChanged(nameof(Status));
-            ValidateBrackets();
         }
     }
 
@@ -55,7 +54,9 @@ public sealed class TranslationEntry : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private void ValidateBrackets()
+    public void ClearValidation() => ValidationMessage = null;
+
+    public void ValidateBrackets()
     {
         if (string.IsNullOrWhiteSpace(Translation))
         {

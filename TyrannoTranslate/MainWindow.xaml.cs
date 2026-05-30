@@ -23,11 +23,14 @@ public partial class MainWindow : Window
     private bool _showUntranslatedOnly;
     private bool _backupsEnabled = true;
     private bool _progressBackupsEnabled = true;
+    private readonly Debouncer _statusDebouncer;
 
     public MainWindow()
     {
         Resources.Add("LineDisplayConverter", new LineDisplayConverter());
         InitializeComponent();
+
+        _statusDebouncer = new Debouncer(UpdateStatusCore, TimeSpan.FromMilliseconds(150), Dispatcher);
 
         _entriesView = CollectionViewSource.GetDefaultView(_allEntries);
         _entriesView.Filter = EntryFilter;
@@ -58,25 +61,12 @@ public partial class MainWindow : Window
     private void OnEntryChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName is nameof(TranslationEntry.Translation) or nameof(TranslationEntry.ValidationMessage))
-            UpdateStatus();
+            _statusDebouncer.Schedule();
     }
 
-    private void LoadDocument(KsFileDocument doc, string? path)
-    {
-        _document = doc;
-        _currentFilePath = path;
-        _allEntries.Clear();
-        foreach (var entry in doc.Entries)
-            _allEntries.Add(entry);
+    private void UpdateStatus() => UpdateStatusCore();
 
-        FilePathText.Text = path ?? "(unsaved)";
-        SaveMenuItem.IsEnabled = path != null;
-        Title = path != null ? $"TyrannoTranslate — {Path.GetFileName(path)}" : "TyrannoTranslate";
-        _entriesView.Refresh();
-        UpdateStatus();
-    }
-
-    private void UpdateStatus()
+    private void UpdateStatusCore()
     {
         var total = _allEntries.Count;
         var translated = _allEntries.Count(e => e.IsTranslated && !e.HasError);
@@ -88,7 +78,7 @@ public partial class MainWindow : Window
         if (_currentFilePath == null)
             StatusText.Text = "Open a TyranoScript .ks file to begin.";
         else if (errors > 0)
-            StatusText.Text = $"{errors} row(s) have bracket mismatches — fix before saving.";
+            StatusText.Text = $"{errors} row(s) have bracket mismatches — fix or use File → Force Save.";
         else if (_showUntranslatedOnly)
             StatusText.Text = "Showing untranslated rows only.";
         else
@@ -102,6 +92,22 @@ public partial class MainWindow : Window
                 ? $"Ready. On save: {string.Join("; ", parts)}."
                 : "Ready. All save backups disabled.";
         }
+    }
+
+    private void LoadDocument(KsFileDocument doc, string? path)
+    {
+        _document = doc;
+        _currentFilePath = path;
+        _allEntries.Clear();
+        foreach (var entry in doc.Entries)
+            _allEntries.Add(entry);
+
+        FilePathText.Text = path ?? "(unsaved)";
+        SaveMenuItem.IsEnabled = path != null;
+        ForceSaveMenuItem.IsEnabled = path != null;
+        Title = path != null ? $"TyrannoTranslate — {Path.GetFileName(path)}" : "TyrannoTranslate";
+        _entriesView.Refresh();
+        UpdateStatus();
     }
 
     private void OpenFile_Click(object sender, RoutedEventArgs e) => OpenFile();
@@ -143,7 +149,48 @@ public partial class MainWindow : Window
             return;
         }
 
-        SaveToPath(_currentFilePath);
+        SaveToPath(_currentFilePath, ignoreValidation: false);
+    }
+
+    private void ForceSaveFile_Click(object sender, RoutedEventArgs e) => ForceSaveFile();
+
+    private void ForceSaveFile()
+    {
+        if (_document == null)
+        {
+            MessageBox.Show(this, "Open a file first.", "Force Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        if (_currentFilePath == null)
+        {
+            ForceSaveAsFile();
+            return;
+        }
+
+        SaveToPath(_currentFilePath, ignoreValidation: true);
+    }
+
+    private void ForceSaveAsFile_Click(object sender, RoutedEventArgs e) => ForceSaveAsFile();
+
+    private void ForceSaveAsFile()
+    {
+        if (_document == null) return;
+
+        var dialog = new SaveFileDialog
+        {
+            Filter = "TyranoScript files (*.ks)|*.ks|All files (*.*)|*.*",
+            Title = "Force save translated scenario",
+            FileName = _currentFilePath != null ? Path.GetFileName(_currentFilePath) : "translated.ks"
+        };
+
+        if (dialog.ShowDialog() != true) return;
+        SaveToPath(dialog.FileName, ignoreValidation: true);
+        _currentFilePath = dialog.FileName;
+        FilePathText.Text = dialog.FileName;
+        Title = $"TyrannoTranslate — {Path.GetFileName(dialog.FileName)}";
+        SaveMenuItem.IsEnabled = true;
+        ForceSaveMenuItem.IsEnabled = true;
     }
 
     private void SaveAsFile_Click(object sender, RoutedEventArgs e) => SaveAsFile();
@@ -160,20 +207,36 @@ public partial class MainWindow : Window
         };
 
         if (dialog.ShowDialog() != true) return;
-        SaveToPath(dialog.FileName);
+        SaveToPath(dialog.FileName, ignoreValidation: false);
         _currentFilePath = dialog.FileName;
         FilePathText.Text = dialog.FileName;
         Title = $"TyrannoTranslate — {Path.GetFileName(dialog.FileName)}";
         SaveMenuItem.IsEnabled = true;
+        ForceSaveMenuItem.IsEnabled = true;
     }
 
-    private void SaveToPath(string path)
+    private void SaveToPath(string path, bool ignoreValidation)
     {
         if (_document == null) return;
 
+        var errorCount = _allEntries.Count(e => e.HasError);
+        if (ignoreValidation && errorCount > 0)
+        {
+            var confirm = MessageBox.Show(this,
+                $"{errorCount} row(s) have bracket mismatches.\n\nForce save will write them anyway. Continue?",
+                "Force Save",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (confirm != MessageBoxResult.Yes)
+                return;
+        }
+
         try
         {
-            var content = KsWriter.BuildContent(_document.Lines, _allEntries);
+            TranslationGrid.CommitEdit(DataGridEditingUnit.Cell, exitEditingMode: true);
+            ValidateAllEntries();
+
+            var content = KsWriter.BuildContent(_document.Lines, _allEntries, ignoreValidation);
             var details = new List<string>();
 
             if (_backupsEnabled && File.Exists(path))
@@ -198,13 +261,24 @@ public partial class MainWindow : Window
                 : $"Saved to {path}";
 
             var message = details.Count > 0
-                ? "File saved successfully.\n\n" + string.Join("\n\n", details)
-                : "File saved successfully.";
-            MessageBox.Show(this, message, "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                ? (ignoreValidation ? "File force saved successfully.\n\n" : "File saved successfully.\n\n") + string.Join("\n\n", details)
+                : ignoreValidation ? "File force saved successfully." : "File saved successfully.";
+            MessageBox.Show(this, message, ignoreValidation ? "Force Save" : "Save", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
         {
             MessageBox.Show(this, ex.Message, "Save failed", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ValidateAllEntries()
+    {
+        foreach (var entry in _allEntries)
+        {
+            if (string.IsNullOrWhiteSpace(entry.Translation))
+                entry.ClearValidation();
+            else
+                entry.ValidateBrackets();
         }
     }
 
@@ -218,6 +292,23 @@ public partial class MainWindow : Window
     {
         if (sender is TextBox textBox)
             textBox.Focus();
+    }
+
+    private void TranslationText_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (sender is not TextBox { DataContext: TranslationEntry entry } textBox)
+            return;
+
+        if (entry.Translation != textBox.Text)
+            entry.Translation = textBox.Text;
+
+        if (string.IsNullOrWhiteSpace(textBox.Text))
+        {
+            entry.ClearValidation();
+            return;
+        }
+
+        entry.ValidateBrackets();
     }
 
     private void TranslationGrid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
