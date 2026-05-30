@@ -1,20 +1,21 @@
 # TyrannoTranslate
 
-A desktop translator for **TyranoScript** `.ks` scenario files (similar in workflow to [Translator++](https://dreamsavior.net/translator-plusplus/) for RPG Maker).
+A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Made with Cursor Vibecoding)
 
 ## Features
 
 - Spreadsheet-style grid: **Original** (left) and **Translation** (right)
-- Parses Tyrano tags `[like this]` — they must stay identical in your translation
-- Skips pure command lines (`[bg ...]`, `[jump ...]`, labels `*feed`, etc.)
-- Includes dialogue, narration `（...）`, and character headers `#名前`
-- Save writes translations back into the `.ks` file (use **Save As** to keep the original)
+- Parses Tyrano tags `[like this]` — they must stay identical in your translation.
+- Skips pure command lines. (`[bg ...]`, `[jump ...]`, labels `*feed`, etc.)
+- Includes dialogue, narration `（...）`, and character headers `#名前`.
+- Save writes translations back into the `.ks` file.
+- Backup system for the original script file and your current progress.
 
 ## Requirements
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (Windows)
 
-## Run
+### Run
 
 ```bash
 cd TyrannoTranslate
@@ -23,7 +24,7 @@ dotnet run --project TyrannoTranslate
 
 Or open `TyrannoTranslate.sln` in Visual Studio and press F5.
 
-## Single-file build (Windows x64)
+### Build
 
 ```bash
 dotnet publish TyrannoTranslate/TyrannoTranslate.csproj -c Release -r win-x64
@@ -37,15 +38,15 @@ Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTran
 2. Type English in the **Translation** column. Copy `[p]`, `[lr]`, `[l]` and other tags from the original line.
 3. **Edit → Copy original → translation** fills the right column from the left (handy as a starting point).
 4. **File → Save** or **Save As** when bracket tags match (✓ in **St** column; `!` means a mismatch).
-5. **Backups on save** (each toggled under **Edit**):
+5. **Backups on save** (each toggled under the **Edit** menu):
    - `filename.ks.bak` — copy of the on-disk file **before your first save only** (never overwritten on later saves).
-   - `filename.ks.baktl` — snapshot of your current in-memory translations; **updated every save** while enabled.
-   - (if you want to restore a backup, please override the main file with one of the backup files.)
+   - `filename.ks.baktl` — snapshot of your current in-memory translations; **updates on every save** while enabled.
+   - (If you want to restore a backup, please override the main file with one of the backup files.)
 
 ## Example
 
-| Original | Translation |
-|----------|-------------|
-| `絶対的なゲーム[p]` | `Absolute Gaming[p]` |
+| # | Ln | St | Original | Translation |
+|---|----|---|----------|-------------|
+| 1 | 12 | ✓ | `絶対的なゲーム[p]` | `Absolute Gaming[p]` |
 
 Do **not** change text inside `[brackets]` unless it is dialogue/narration outside those tags.
