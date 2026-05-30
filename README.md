@@ -40,6 +40,7 @@ Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTran
 5. **Backups on save** (each toggled under **Edit**):
    - `filename.ks.bak` — copy of the on-disk file **before your first save only** (never overwritten on later saves).
    - `filename.ks.baktl` — snapshot of your current in-memory translations; **updated every save** while enabled.
+   - (if you want to restore a backup, please override the main file with one of the backup files.)
 
 ## Example
 
