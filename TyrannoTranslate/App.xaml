@@ -1,0 +1,28 @@
+<Application x:Class="TyrannoTranslate.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="BgDark" Color="#1E1E2E"/>
+            <SolidColorBrush x:Key="BgPanel" Color="#252536"/>
+            <SolidColorBrush x:Key="BgRowAlt" Color="#2A2A3C"/>
+            <SolidColorBrush x:Key="BgRow" Color="#232334"/>
+            <SolidColorBrush x:Key="BorderColor" Color="#3D3D5C"/>
+            <SolidColorBrush x:Key="TextPrimary" Color="#E8E8F0"/>
+            <SolidColorBrush x:Key="TextMuted" Color="#9090A8"/>
+            <SolidColorBrush x:Key="Accent" Color="#7C9EFF"/>
+            <SolidColorBrush x:Key="HeaderBg" Color="#2D2D44"/>
+            <SolidColorBrush x:Key="TagHighlight" Color="#4A5568"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.MenuBrushKey}" Color="#252536"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.MenuTextBrushKey}" Color="#E8E8F0"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3D3D58"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#353548"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#E8E8F0"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
