@@ -20,6 +20,7 @@ public partial class MainWindow : Window
     private string? _currentFilePath;
     private bool _showUntranslatedOnly;
     private bool _backupsEnabled = true;
+    private bool _progressBackupsEnabled = true;
 
     public MainWindow()
     {
@@ -88,10 +89,17 @@ public partial class MainWindow : Window
             StatusText.Text = $"{errors} row(s) have bracket mismatches — fix before saving.";
         else if (_showUntranslatedOnly)
             StatusText.Text = "Showing untranslated rows only.";
-        else if (!_backupsEnabled)
-            StatusText.Text = "Backups disabled — save will overwrite without creating a .bak file.";
         else
-            StatusText.Text = "Ready. Save creates a .bak copy of the on-disk file before overwriting.";
+        {
+            var parts = new List<string>();
+            if (_backupsEnabled)
+                parts.Add(".bak (original, once)");
+            if (_progressBackupsEnabled)
+                parts.Add(".baktl (progress, each save)");
+            StatusText.Text = parts.Count > 0
+                ? $"Ready. On save: {string.Join("; ", parts)}."
+                : "Ready. All save backups disabled.";
+        }
     }
 
     private void OpenFile_Click(object sender, RoutedEventArgs e) => OpenFile();
@@ -164,21 +172,31 @@ public partial class MainWindow : Window
         try
         {
             var content = KsWriter.BuildContent(_document.Lines, _allEntries);
-            string? backupPath = null;
+            var details = new List<string>();
+
             if (_backupsEnabled && File.Exists(path))
             {
-                KsBackupService.CreateBackupIfExists(path);
-                backupPath = KsBackupService.GetBackupPath(path);
+                var bakPath = KsBackupService.GetOriginalBackupPath(path);
+                if (KsBackupService.TryCreateOriginalBackup(path))
+                    details.Add($"Original backup created:\n{bakPath}");
+                else if (File.Exists(bakPath))
+                    details.Add($"Original backup unchanged:\n{bakPath}");
             }
 
             File.WriteAllText(path, content);
 
-            StatusText.Text = backupPath != null
-                ? $"Saved to {path} (backup: {backupPath})"
+            if (_progressBackupsEnabled)
+            {
+                KsBackupService.SaveProgressSnapshot(path, content);
+                details.Add($"Progress snapshot updated:\n{KsBackupService.GetProgressBackupPath(path)}");
+            }
+
+            StatusText.Text = details.Count > 0
+                ? $"Saved to {path}"
                 : $"Saved to {path}";
 
-            var message = backupPath != null
-                ? $"File saved successfully.\n\nBackup created:\n{backupPath}"
+            var message = details.Count > 0
+                ? "File saved successfully.\n\n" + string.Join("\n\n", details)
                 : "File saved successfully.";
             MessageBox.Show(this, message, "Save", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -212,6 +230,12 @@ public partial class MainWindow : Window
     private void ToggleBackup_Click(object sender, RoutedEventArgs e)
     {
         _backupsEnabled = BackupMenuItem.IsChecked;
+        UpdateStatus();
+    }
+
+    private void ToggleProgressBackup_Click(object sender, RoutedEventArgs e)
+    {
+        _progressBackupsEnabled = ProgressBackupMenuItem.IsChecked;
         UpdateStatus();
     }
 

@@ -18,7 +18,8 @@
             <MenuItem Header="_Edit">
                 <MenuItem Header="Copy original → translation (selected)" Click="CopyOriginal_Click"/>
                 <MenuItem Header="Filter: _untranslated only" Click="ToggleFilter_Click" x:Name="FilterMenuItem" IsCheckable="True"/>
-                <MenuItem Header="Create .bak backup on save" Click="ToggleBackup_Click" x:Name="BackupMenuItem" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Header="Create .bak backup on save (once)" Click="ToggleBackup_Click" x:Name="BackupMenuItem" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Header="Create .baktl progress snapshot on save" Click="ToggleProgressBackup_Click" x:Name="ProgressBackupMenuItem" IsCheckable="True" IsChecked="True"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About" Click="About_Click"/>

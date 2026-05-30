@@ -37,7 +37,9 @@ Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTran
 2. Type English in the **Translation** column. Copy `[p]`, `[lr]`, `[l]` and other tags from the original line.
 3. **Edit → Copy original → translation** fills the right column from the left (handy as a starting point).
 4. **File → Save** or **Save As** when bracket tags match (✓ in **St** column; `!` means a mismatch).
-5. On save, the current on-disk file is copied to `filename.ks.bak` before overwriting (toggle via **Edit → Create .bak backup on save**).
+5. **Backups on save** (each toggled under **Edit**):
+   - `filename.ks.bak` — copy of the on-disk file **before your first save only** (never overwritten on later saves).
+   - `filename.ks.baktl` — snapshot of your current in-memory translations; **updated every save** while enabled.
 
 ## Example
 
