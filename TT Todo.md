@@ -5,3 +5,7 @@
 - Fix the translated columns not updating the issues until clicking off of it
 
 - Fix text cursor being black instead of white
+
+- Add a "don't replace filled translations" check box to the auto-populate and the superImporter features
+
+- add an "exact match" check box to the auto-populate feature (needs to match exactly, do not allow the words to fill if it's in the middle of a random sentence))
