@@ -8,4 +8,6 @@
 
 - Add a "don't replace filled translations" check box to the auto-populate and the superImporter features
 
-- add an "exact match" check box to the auto-populate feature (needs to match exactly, do not allow the words to fill if it's in the middle of a random sentence))
+- add an "exact match" check box to the auto-populate feature (needs to match exactly, do not allow the words to fill if it's in the middle of a random sentence)
+
+- Fix cutting text (literally doesn't work)
