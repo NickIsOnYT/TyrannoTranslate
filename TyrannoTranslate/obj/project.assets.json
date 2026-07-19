@@ -82,11 +82,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate - Copy\\TyrannoTranslate\\TyrannoTranslate.csproj",
+      "projectUniqueName": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
       "projectName": "TyrannoTranslate",
-      "projectPath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate - Copy\\TyrannoTranslate\\TyrannoTranslate.csproj",
+      "projectPath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
       "packagesPath": "C:\\Users\\nicks\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate - Copy\\TyrannoTranslate\\obj\\",
+      "outputPath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nicks\\AppData\\Roaming\\NuGet\\NuGet.Config"
