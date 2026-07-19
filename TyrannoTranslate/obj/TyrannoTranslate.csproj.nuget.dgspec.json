@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj": {}
+    "c:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj": {
+    "c:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
+        "projectUniqueName": "c:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
         "projectName": "TyrannoTranslate",
-        "projectPath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
+        "projectPath": "c:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\TyrannoTranslate.csproj",
         "packagesPath": "C:\\Users\\nicks\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\obj\\",
+        "outputPath": "c:\\Users\\nicks\\Documents\\Coding\\TyrannoTranslate\\TyrannoTranslate\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nicks\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -47,7 +47,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.27, )",
+              "version": "[8.0.29, )",
               "autoReferenced": true
             }
           },
@@ -65,31 +65,31 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.27, 8.0.27]"
+              "version": "[8.0.29, 8.0.29]"
             }
           ],
           "frameworkReferences": {
@@ -100,7 +100,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.117/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.119/PortableRuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

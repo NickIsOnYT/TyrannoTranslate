@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
-      "Microsoft.NET.ILLink.Tasks/8.0.27": {
+      "Microsoft.NET.ILLink.Tasks/8.0.29": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -10,7 +10,7 @@
       }
     },
     "net8.0-windows7.0/win-x64": {
-      "Microsoft.NET.ILLink.Tasks/8.0.27": {
+      "Microsoft.NET.ILLink.Tasks/8.0.29": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -19,10 +19,10 @@
     }
   },
   "libraries": {
-    "Microsoft.NET.ILLink.Tasks/8.0.27": {
-      "sha512": "rQi9TxifHRnXP7lVRZH05DxD2/XGbJp12q0ozcbrlBlBnyyzssFTH/2vLhtKWUp2CT1qVscTrcYTFiwTyKPKRg==",
+    "Microsoft.NET.ILLink.Tasks/8.0.29": {
+      "sha512": "HSBTfrkIZijz8z3ybLRKB7E8rHk4QQufFwpHa9fc5CMIgRhRzdn4mBGmlyXZqaueiMPtuJcnjresGvSTfaW8Mg==",
       "type": "package",
-      "path": "microsoft.net.illink.tasks/8.0.27",
+      "path": "microsoft.net.illink.tasks/8.0.29",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -36,7 +36,7 @@
         "build/Microsoft.NET.ILLink.Analyzers.props",
         "build/Microsoft.NET.ILLink.Tasks.props",
         "build/Microsoft.NET.ILLink.targets",
-        "microsoft.net.illink.tasks.8.0.27.nupkg.sha512",
+        "microsoft.net.illink.tasks.8.0.29.nupkg.sha512",
         "microsoft.net.illink.tasks.nuspec",
         "tools/net472/ILLink.Tasks.dll",
         "tools/net472/ILLink.Tasks.dll.config",
@@ -73,7 +73,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
-      "Microsoft.NET.ILLink.Tasks >= 8.0.27"
+      "Microsoft.NET.ILLink.Tasks >= 8.0.29"
     ]
   },
   "packageFolders": {
@@ -122,7 +122,7 @@
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[8.0.27, )",
+            "version": "[8.0.29, )",
             "autoReferenced": true
           }
         },
@@ -140,31 +140,31 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[8.0.27, 8.0.27]"
+            "version": "[8.0.29, 8.0.29]"
           }
         ],
         "frameworkReferences": {
@@ -175,7 +175,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.117/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.119/PortableRuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
