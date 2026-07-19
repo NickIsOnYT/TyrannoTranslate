@@ -20,8 +20,13 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 ### Requirements
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (Windows)
+- [Python 3.14.3](https://www.python.org/downloads/release/python-3143/) (Windows)
 
 ### Run
+
+```bash
+pip install -r requirements.txt
+```
 
 ```bash
 dotnet run --project TyrannoTranslate
