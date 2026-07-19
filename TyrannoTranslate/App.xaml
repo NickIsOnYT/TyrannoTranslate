@@ -20,6 +20,8 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#FFFFFF"/>
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#353548"/>
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#E8E8F0"/>
+            <!-- WindowBrushKey/WindowTextBrushKey left as system defaults for ComboBox dropdown white background -->
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>

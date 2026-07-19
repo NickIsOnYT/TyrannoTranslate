@@ -60,14 +60,22 @@
     </ContextMenu>
 
     <ContextMenu x:Key="EditableTextContextMenu">
-        <MenuItem Header="Cut" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"
+        <MenuItem Header="Cut" Command="ApplicationCommands.Cut"
+                  CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  InputGestureText="Ctrl+X"
                   Style="{StaticResource ContextMenuItemStyle}"/>
-        <MenuItem Header="Copy" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"
+        <MenuItem Header="Copy" Command="ApplicationCommands.Copy"
+                  CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  InputGestureText="Ctrl+C"
                   Style="{StaticResource ContextMenuItemStyle}"/>
-        <MenuItem Header="Paste" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"
+        <MenuItem Header="Paste" Command="ApplicationCommands.Paste"
+                  CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  InputGestureText="Ctrl+V"
                   Style="{StaticResource ContextMenuItemStyle}"/>
         <Separator/>
-        <MenuItem Header="Select All" Command="ApplicationCommands.SelectAll" InputGestureText="Ctrl+A"
+        <MenuItem Header="Select All" Command="ApplicationCommands.SelectAll"
+                  CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                  InputGestureText="Ctrl+A"
                   Style="{StaticResource ContextMenuItemStyle}"/>
     </ContextMenu>
 
@@ -138,6 +146,14 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="8,6"/>
         <Setter Property="ContextMenu" Value="{DynamicResource EditableTextContextMenu}"/>
+    </Style>
+
+    <Style x:Key="DialogPasswordBoxStyle" TargetType="{x:Type PasswordBox}">
+        <Setter Property="Background" Value="{DynamicResource BgPanel}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,6"/>
     </Style>
 
     <Style x:Key="ReadOnlyOriginalTextStyle" TargetType="{x:Type TextBox}">

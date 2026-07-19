@@ -48,6 +48,7 @@ public partial class MainWindow : Window
 
         InputBindings.Add(new KeyBinding(new RelayCommand(OpenFile), Key.O, ModifierKeys.Control));
         InputBindings.Add(new KeyBinding(new RelayCommand(SaveFile), Key.S, ModifierKeys.Control));
+        InputBindings.Add(new KeyBinding(new RelayCommand(ShowTranslateDialog), Key.T, ModifierKeys.Control));
 
         UpdateStatus();
     }
@@ -342,6 +343,45 @@ public partial class MainWindow : Window
         UpdateStatus();
     }
 
+    private void Translate_Click(object sender, RoutedEventArgs e) => ShowTranslateDialog();
+
+    private void SuperImporter_Click(object sender, RoutedEventArgs e)
+    {
+        if (_allEntries.Count == 0)
+        {
+            MessageBox.Show(this, "Open a file first.", "SuperImporter", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var dialog = new Dialogs.SuperImporterDialog(this, _allEntries);
+        dialog.ShowDialog();
+        _entriesView.Refresh();
+        UpdateStatus();
+    }
+
+    private void ShowTranslateDialog()
+    {
+        if (_allEntries.Count == 0)
+        {
+            MessageBox.Show(this, "Open a file first.", "Translate", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        try
+        {
+            var dialog = new Dialogs.TranslateDialog(this, _allEntries);
+            dialog.ShowDialog();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(this, $"Failed to open translate dialog:\n{ex.Message}",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        _entriesView.Refresh();
+        UpdateStatus();
+    }
+
     private void ToggleFilter_Click(object sender, RoutedEventArgs e)
     {
         _showUntranslatedOnly = !_showUntranslatedOnly;
@@ -360,6 +400,12 @@ public partial class MainWindow : Window
     {
         _progressBackupsEnabled = ProgressBackupMenuItem.IsChecked;
         UpdateStatus();
+    }
+
+    private void TagReference_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new Dialogs.TagReferenceDialog(this);
+        dialog.ShowDialog();
     }
 
     private void About_Click(object sender, RoutedEventArgs e)

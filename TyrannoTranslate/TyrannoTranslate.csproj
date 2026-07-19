@@ -19,4 +19,13 @@
     <Resource Include="Icon\logo.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Scripts\argos_translate.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\argos_check_models.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

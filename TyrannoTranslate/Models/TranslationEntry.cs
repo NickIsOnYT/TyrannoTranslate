@@ -32,6 +32,7 @@ public sealed class TranslationEntry : INotifyPropertyChanged
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsTranslated));
             OnPropertyChanged(nameof(Status));
+            ValidateBrackets();
         }
     }
 

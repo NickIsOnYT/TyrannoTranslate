@@ -21,6 +21,8 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Copy original → translation (selected)" Click="CopyOriginal_Click"/>
+                <MenuItem Header="_Translate..." Click="Translate_Click" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="_SuperImporter..." Click="SuperImporter_Click"/>
                 <MenuItem Header="_Auto-populate..." Click="AutoPopulate_Click"/>
                 <Separator/>
                 <MenuItem Header="Filter: _untranslated only" Click="ToggleFilter_Click" x:Name="FilterMenuItem" IsCheckable="True"/>
@@ -28,6 +30,7 @@
                 <MenuItem Header="Create .baktl progress snapshot on save" Click="ToggleProgressBackup_Click" x:Name="ProgressBackupMenuItem" IsCheckable="True" IsChecked="True"/>
             </MenuItem>
             <MenuItem Header="_Help">
+                <MenuItem Header="TyranoScript Tags Reference..." Click="TagReference_Click"/>
                 <MenuItem Header="About" Click="About_Click"/>
             </MenuItem>
         </Menu>
@@ -36,6 +39,7 @@
             <Button Content="Open" Click="OpenFile_Click" Style="{StaticResource ToolbarButtonStyle}"/>
             <Button Content="Save" Click="SaveFile_Click" Style="{StaticResource ToolbarButtonStyle}"/>
             <Separator/>
+            <Button x:Name="TranslateToolbarButton" Content="Translate" Click="Translate_Click" Style="{StaticResource ToolbarButtonStyle}"/>
             <TextBlock Text="File:" VerticalAlignment="Center" Margin="8,0,4,0" Foreground="{StaticResource TextMuted}"/>
             <TextBlock x:Name="FilePathText" Text="(no file)" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
         </ToolBar>

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Auto-populate"
-        Height="360" Width="500"
+        Height="420" Width="520"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="{DynamicResource BgDark}"
@@ -18,26 +18,35 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" TextWrapping="Wrap" Foreground="{DynamicResource TextMuted}" Margin="0,0,0,16"
-                   Text="Find rows whose Original text contains the search text, then fill Translation by replacing each match."/>
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Foreground="{DynamicResource TextMuted}" Margin="0,0,0,12"
+                   Text="Find rows by Original text, then fill Translation by replacing each match."/>
 
         <TextBlock Grid.Row="1" Text="Find in Original:" Margin="0,0,0,6"/>
-        <TextBox x:Name="FindBox" Grid.Row="2" Margin="0,0,0,12"
+        <TextBox x:Name="FindBox" Grid.Row="2" Margin="0,0,0,10"
                  Style="{StaticResource DialogTextBoxStyle}"
                  TextChanged="FindBox_TextChanged"/>
 
         <TextBlock Grid.Row="3" Text="Replace with:" Margin="0,0,0,6"/>
-        <TextBox x:Name="ReplaceBox" Grid.Row="4" Margin="0,0,0,12"
+        <TextBox x:Name="ReplaceBox" Grid.Row="4" Margin="0,0,0,10"
                  Style="{StaticResource DialogTextBoxStyle}"/>
 
-        <CheckBox x:Name="MatchCaseBox" Grid.Row="5" Content="Match case" Margin="0,0,0,8"
-                  Foreground="{DynamicResource TextPrimary}" Checked="MatchCaseBox_Changed" Unchecked="MatchCaseBox_Changed"/>
+        <CheckBox x:Name="ExactMatchBox" Grid.Row="5" Content="Exact match (whole cell must match exactly)" Margin="0,0,0,6"
+                  Foreground="{DynamicResource TextPrimary}" Checked="Option_Changed" Unchecked="Option_Changed"/>
 
-        <TextBlock x:Name="MatchCountText" Grid.Row="6" Margin="0,0,0,16" Foreground="{DynamicResource Accent}"/>
+        <CheckBox x:Name="SkipFilledBox" Grid.Row="6" Content="Don't replace filled translations" Margin="0,0,0,6"
+                  Foreground="{DynamicResource TextPrimary}" IsChecked="True"/>
 
-        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
+        <CheckBox x:Name="MatchCaseBox" Grid.Row="7" Content="Match case" Margin="0,0,0,10"
+                  Foreground="{DynamicResource TextPrimary}" Checked="Option_Changed" Unchecked="Option_Changed"/>
+
+        <TextBlock x:Name="MatchCountText" Grid.Row="8" Margin="0,0,0,14" Foreground="{DynamicResource Accent}"/>
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Apply" Click="Apply_Click" Style="{StaticResource ToolbarButtonStyle}" MinWidth="90" Margin="0,0,8,0"/>
             <Button Content="Cancel" Click="Cancel_Click" Style="{StaticResource ToolbarButtonStyle}" MinWidth="90"/>
         </StackPanel>

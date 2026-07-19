@@ -18,12 +18,12 @@ public partial class AutoPopulateDialog : Window
 
     private void FindBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => UpdateMatchCount();
 
-    private void MatchCaseBox_Changed(object sender, RoutedEventArgs e) => UpdateMatchCount();
+    private void Option_Changed(object sender, RoutedEventArgs e) => UpdateMatchCount();
 
     private void UpdateMatchCount()
     {
         var find = FindBox.Text;
-        var count = AutoPopulateService.CountMatches(_entries, find, MatchCaseBox.IsChecked == true);
+        var count = AutoPopulateService.CountMatches(_entries, find, MatchCaseBox.IsChecked == true, ExactMatchBox.IsChecked == true);
         MatchCountText.Text = string.IsNullOrEmpty(find)
             ? "Enter text to search."
             : $"{count} row(s) will be updated.";
@@ -38,7 +38,7 @@ public partial class AutoPopulateDialog : Window
             return;
         }
 
-        var count = AutoPopulateService.Apply(_entries, find, ReplaceBox.Text, MatchCaseBox.IsChecked == true);
+        var count = AutoPopulateService.Apply(_entries, find, ReplaceBox.Text, MatchCaseBox.IsChecked == true, ExactMatchBox.IsChecked == true, SkipFilledBox.IsChecked == true);
         DialogResult = true;
         Close();
 
