@@ -1,6 +1,6 @@
 # TyrannoTranslate
 
-A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Made with Cursor Vibecoding)
+A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Made with Vibecoding)
 
 ## Features
 
