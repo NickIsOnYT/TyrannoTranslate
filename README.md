@@ -6,7 +6,7 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 
 - Spreadsheet-style grid: **Original** (left) and **Translation** (right)
 - Parses Tyrano tags `[like this]` — they must stay identical in your translation.
-- Skips pure command lines. (`[bg ...]`, `[jump ...]`, labels `*feed`, etc.)
+- Attempts to skip pure command lines. (`[bg ...]`, `[jump ...]`, labels `*feed`, etc.)
 - Includes dialogue, narration `（...）`, and character headers `#名前`.
 - Save writes translations back into the `.ks` file.
 - Backup system for the original script file and your current progress.
