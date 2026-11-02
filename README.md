@@ -12,6 +12,7 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 - An auto-population system so you don't need to copy-paste the same thing 100 times.
 - Auto-translate via 4 APIs.
 - Super-Importer so you can export translations and apply any lines that match to other files.
+- Light, dark, and darker gray themes, selectable from **View → Theme**.
 - Explanation of the various bracket commands of Tyrannoscript
 
 ## Developement

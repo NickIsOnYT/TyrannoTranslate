@@ -1,0 +1,108 @@
+<Window x:Class="TyrannoTranslate.Dialogs.DarkMessageBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="440"
+        SizeToContent="Height"
+        MinHeight="170"
+        MaxHeight="560"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Foreground="{DynamicResource TextPrimary}"
+        PreviewKeyDown="Window_PreviewKeyDown">
+    <Border Background="{DynamicResource BgDark}"
+            BorderBrush="{DynamicResource BorderColor}"
+            BorderThickness="1"
+            CornerRadius="6">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Background="{DynamicResource BgPanel}"
+                    CornerRadius="5,5,0,0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Margin="12,0,6,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="TitleText"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextPrimary}"
+                               FontWeight="SemiBold"/>
+                    <Button Grid.Column="1"
+                            Content="×"
+                            Width="28"
+                            Height="28"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="{DynamicResource TextMuted}"
+                            FontSize="18"
+                            Cursor="Hand"
+                            Click="CloseButton_Click"/>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1" Margin="22,20,22,18">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="44"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="IconText"
+                           Width="30"
+                           Height="30"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           TextAlignment="Center"
+                           FontSize="20"
+                           FontWeight="SemiBold"/>
+                <ScrollViewer Grid.Column="1"
+                              MaxHeight="420"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock x:Name="MessageText"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                </ScrollViewer>
+            </Grid>
+
+            <Border Grid.Row="2"
+                    Background="{DynamicResource BgPanel}"
+                    CornerRadius="0,0,5,5"
+                    Padding="12,8">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="YesButton"
+                            Content="Yes"
+                            MinWidth="84"
+                            IsDefault="True"
+                            Click="YesButton_Click"
+                            Style="{StaticResource ToolbarButtonStyle}"/>
+                    <Button x:Name="NoButton"
+                            Content="No"
+                            MinWidth="84"
+                            IsCancel="True"
+                            Click="NoButton_Click"
+                            Style="{StaticResource ToolbarButtonStyle}"/>
+                    <Button x:Name="OkButton"
+                            Content="OK"
+                            MinWidth="84"
+                            IsDefault="True"
+                            IsCancel="True"
+                            Click="OkButton_Click"
+                            Style="{StaticResource ToolbarButtonStyle}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

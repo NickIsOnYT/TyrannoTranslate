@@ -1,4 +1,5 @@
 using System.Windows;
+using TyrannoTranslate.Helpers;
 using TyrannoTranslate.Models;
 using TyrannoTranslate.Services;
 
@@ -10,6 +11,7 @@ public partial class AutoPopulateDialog : Window
 
     public AutoPopulateDialog(Window owner, IEnumerable<TranslationEntry> entries)
     {
+        WindowChromeTheme.Attach(this);
         Owner = owner;
         _entries = entries.ToList();
         InitializeComponent();
@@ -39,7 +41,7 @@ public partial class AutoPopulateDialog : Window
         var find = FindBox.Text;
         if (string.IsNullOrEmpty(find))
         {
-            MessageBox.Show(this, "Enter text to find.", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, "Enter text to find.", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -47,7 +49,7 @@ public partial class AutoPopulateDialog : Window
         DialogResult = true;
         Close();
 
-        MessageBox.Show(Owner, $"Updated {count} row(s).", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
+        DarkMessageBox.Show(Owner, $"Updated {count} row(s).", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private void Cancel_Click(object sender, RoutedEventArgs e)

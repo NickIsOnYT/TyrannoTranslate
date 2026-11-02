@@ -10,7 +10,10 @@ public sealed class AppSettings
 
     private static readonly string _filePath = Path.Combine(_folder, "settings.json");
 
+    public static string SettingsFilePath => _filePath;
+
     public string SelectedProvider { get; set; } = "Argos Translate";
+    public string SelectedTheme { get; set; } = "Dark";
     public string ArgosModelPath { get; set; } = "";
     public string GoogleApiKey { get; set; } = "";
     public bool GoogleUseFreeEndpoint { get; set; } = true;
@@ -39,12 +42,23 @@ public sealed class AppSettings
     {
         try
         {
-            Directory.CreateDirectory(_folder);
-            var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_filePath, json);
+            WriteSettingsFile();
         }
         catch
         {
         }
+    }
+
+    public void SaveTheme(string theme)
+    {
+        SelectedTheme = theme;
+        WriteSettingsFile();
+    }
+
+    private void WriteSettingsFile()
+    {
+        Directory.CreateDirectory(_folder);
+        var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(_filePath, json);
     }
 }

@@ -99,6 +99,7 @@ public partial class TranslateDialog : Window
 
     public TranslateDialog(Window owner, IEnumerable<TranslationEntry> entries)
     {
+        WindowChromeTheme.Attach(this);
         Owner = owner;
         _allEntries = entries.ToArray();
 
@@ -454,7 +455,7 @@ public partial class TranslateDialog : Window
         var selectedItems = Items.Where(i => i.IsSelected).ToList();
         if (selectedItems.Count == 0)
         {
-            MessageBox.Show(this, "Select at least one line to translate.", "Translate",
+            DarkMessageBox.Show(this, "Select at least one line to translate.", "Translate",
                             MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
@@ -462,14 +463,14 @@ public partial class TranslateDialog : Window
         var provider = ProviderCombo.SelectedItem as ITranslationProvider;
         if (provider == null)
         {
-            MessageBox.Show(this, "No translation provider selected.", "Translate",
+            DarkMessageBox.Show(this, "No translation provider selected.", "Translate",
                             MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
         if (!provider.IsConfigured)
         {
-            MessageBox.Show(this, $"{provider.Name} is not configured.\n{provider.Description}",
+            DarkMessageBox.Show(this, $"{provider.Name} is not configured.\n{provider.Description}",
                             "Translate", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
@@ -481,14 +482,14 @@ public partial class TranslateDialog : Window
 
         if (string.IsNullOrEmpty(sourceLang) || string.IsNullOrEmpty(targetLang))
         {
-            MessageBox.Show(this, "Select source and target languages.", "Translate",
+            DarkMessageBox.Show(this, "Select source and target languages.", "Translate",
                             MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
         if (sourceLang == targetLang)
         {
-            MessageBox.Show(this, "Source and target languages must be different.", "Translate",
+            DarkMessageBox.Show(this, "Source and target languages must be different.", "Translate",
                             MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }

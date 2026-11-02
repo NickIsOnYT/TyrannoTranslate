@@ -27,8 +27,10 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        WindowChromeTheme.Attach(this);
         Resources.Add("LineDisplayConverter", new LineDisplayConverter());
         InitializeComponent();
+        UpdateThemeMenuSelection();
 
         _statusDebouncer = new Debouncer(UpdateStatusCore, TimeSpan.FromMilliseconds(150), Dispatcher);
 
@@ -130,7 +132,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(this, ex.Message, "Open failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            DarkMessageBox.Show(this, ex.Message, "Open failed", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -140,7 +142,7 @@ public partial class MainWindow : Window
     {
         if (_document == null)
         {
-            MessageBox.Show(this, "Open a file first.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, "Open a file first.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -159,7 +161,7 @@ public partial class MainWindow : Window
     {
         if (_document == null)
         {
-            MessageBox.Show(this, "Open a file first.", "Force Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, "Open a file first.", "Force Save", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -227,7 +229,7 @@ public partial class MainWindow : Window
         var errorCount = _allEntries.Count(e => e.HasError);
         if (ignoreValidation && errorCount > 0)
         {
-            var confirm = MessageBox.Show(this,
+            var confirm = DarkMessageBox.Show(this,
                 $"{errorCount} row(s) have bracket mismatches.\n\nForce save will write them anyway. Continue?",
                 "Force Save",
                 MessageBoxButton.YesNo,
@@ -270,12 +272,12 @@ public partial class MainWindow : Window
             var message = details.Count > 0
                 ? (ignoreValidation ? "File force saved successfully.\n\n" : "File saved successfully.\n\n") + string.Join("\n\n", details)
                 : ignoreValidation ? "File force saved successfully." : "File saved successfully.";
-            MessageBox.Show(this, message, ignoreValidation ? "Force Save" : "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, message, ignoreValidation ? "Force Save" : "Save", MessageBoxButton.OK, MessageBoxImage.Information);
             return true;
         }
         catch (Exception ex)
         {
-            MessageBox.Show(this, ex.Message, "Save failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            DarkMessageBox.Show(this, ex.Message, "Save failed", MessageBoxButton.OK, MessageBoxImage.Error);
             return fileSaved;
         }
     }
@@ -318,7 +320,7 @@ public partial class MainWindow : Window
     {
         if (_allEntries.Count == 0)
         {
-            MessageBox.Show(this, "Open a file first.", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, "Open a file first.", "Auto-populate", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -340,7 +342,7 @@ public partial class MainWindow : Window
     {
         if (_allEntries.Count == 0)
         {
-            MessageBox.Show(this, "Open a file first.", "SuperImporter", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, "Open a file first.", "SuperImporter", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -354,7 +356,7 @@ public partial class MainWindow : Window
     {
         if (_allEntries.Count == 0)
         {
-            MessageBox.Show(this, "Open a file first.", "Translate", MessageBoxButton.OK, MessageBoxImage.Information);
+            DarkMessageBox.Show(this, "Open a file first.", "Translate", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
@@ -365,7 +367,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(this, $"Failed to open translate dialog:\n{ex.Message}",
+            DarkMessageBox.Show(this, $"Failed to open translate dialog:\n{ex.Message}",
                             "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
@@ -393,6 +395,36 @@ public partial class MainWindow : Window
         UpdateStatus();
     }
 
+    private void ThemeMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem { Tag: string themeName })
+            return;
+
+        ThemeManager.Apply(themeName);
+        try
+        {
+            AppSettings.Load().SaveTheme(themeName);
+        }
+        catch (Exception ex)
+        {
+            DarkMessageBox.Show(
+                this,
+                $"The theme changed for this session, but could not be saved to:\n{AppSettings.SettingsFilePath}\n\n{ex.Message}",
+                "Theme settings could not be saved",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+
+        UpdateThemeMenuSelection();
+    }
+
+    private void UpdateThemeMenuSelection()
+    {
+        LightThemeMenuItem.IsChecked = ThemeManager.CurrentTheme == "Light";
+        DarkThemeMenuItem.IsChecked = ThemeManager.CurrentTheme == "Dark";
+        DarkerThemeMenuItem.IsChecked = ThemeManager.CurrentTheme == "Darker";
+    }
+
     private void TagReference_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new Dialogs.TagReferenceDialog(this);
@@ -401,7 +433,7 @@ public partial class MainWindow : Window
 
     private void About_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show(this,
+        DarkMessageBox.Show(this,
             "TyrannoTranslate\n\nTranslates TyranoScript .ks scenario files.\n" +
             "• Left column: original text\n" +
             "• Right column: your English translation\n" +

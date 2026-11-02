@@ -26,7 +26,8 @@
                        Foreground="{DynamicResource TextMuted}" FontSize="13" Margin="0,0,8,0"/>
 <ComboBox x:Name="ProviderCombo" MinWidth="180"
           DisplayMemberPath="Name"
-          Background="White" Foreground="Black"
+          Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}"
+          BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"
           SelectionChanged="ProviderCombo_SelectionChanged"/>
             <TextBlock x:Name="ProviderDescText" VerticalAlignment="Center"
                        Foreground="{DynamicResource TextMuted}" FontSize="12"
@@ -90,7 +91,7 @@
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#3A3A55"/>
+                            <Setter Property="Background" Value="{DynamicResource SelectionBackground}"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
                         </Trigger>
                     </Style.Triggers>
@@ -124,7 +125,8 @@
                           DisplayMemberPath="Name"
                           SelectedValuePath="Code"
                           SelectedIndex="0"
-                          Background="White" Foreground="Black"/>
+                          Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}"
+                          BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"/>
             </StackPanel>
             <TextBlock Grid.Column="1" Text="→" FontSize="28" VerticalAlignment="Bottom"
                        Foreground="{DynamicResource TextMuted}" Margin="16,0" Padding="0,0,0,4"/>
@@ -134,7 +136,8 @@
                           DisplayMemberPath="Name"
                           SelectedValuePath="Code"
                           SelectedIndex="1"
-                          Background="White" Foreground="Black"/>
+                          Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}"
+                          BorderBrush="{DynamicResource BorderColor}" BorderThickness="1"/>
             </StackPanel>
         </Grid>
 

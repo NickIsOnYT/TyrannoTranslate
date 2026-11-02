@@ -1,5 +1,6 @@
 using System.Windows;
 using Microsoft.Win32;
+using TyrannoTranslate.Helpers;
 using TyrannoTranslate.Models;
 using TyrannoTranslate.Services;
 
@@ -12,6 +13,7 @@ public partial class SuperImporterDialog : Window
 
     public SuperImporterDialog(Window owner, IEnumerable<TranslationEntry> entries)
     {
+        WindowChromeTheme.Attach(this);
         Owner = owner;
         _entries = entries.ToList();
         InitializeComponent();
@@ -31,12 +33,12 @@ public partial class SuperImporterDialog : Window
         try
         {
             SuperImporterService.Export(_entries, dialog.FileName);
-            MessageBox.Show(this, $"Exported {_entries.Count(e => e.IsTranslated)} translation(s) to:\n{dialog.FileName}",
+            DarkMessageBox.Show(this, $"Exported {_entries.Count(e => e.IsTranslated)} translation(s) to:\n{dialog.FileName}",
                             "Export", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
         {
-            MessageBox.Show(this, $"Export failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            DarkMessageBox.Show(this, $"Export failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -61,7 +63,7 @@ public partial class SuperImporterDialog : Window
 
             if (willUpdate > 0)
             {
-                var result = MessageBox.Show(this,
+                var result = DarkMessageBox.Show(this,
                     $"{willUpdate} row(s) will be updated from the imported file.\n\nApply now?",
                     "SuperImporter",
                     MessageBoxButton.YesNo,
@@ -85,7 +87,7 @@ public partial class SuperImporterDialog : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(this, $"Import failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            DarkMessageBox.Show(this, $"Import failed: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

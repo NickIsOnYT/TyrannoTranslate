@@ -5,58 +5,98 @@
         Height="720" Width="1200"
         MinHeight="480" MinWidth="900"
         Icon="Icon/logo.ico"
-        Background="{StaticResource BgDark}"
-        Foreground="{StaticResource TextPrimary}">
+        Background="{DynamicResource BgDark}"
+        Foreground="{DynamicResource TextPrimary}">
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Background="{StaticResource BgPanel}" Foreground="{StaticResource TextPrimary}">
+        <Menu DockPanel.Dock="Top" Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open .ks..." Click="OpenFile_Click" InputGestureText="Ctrl+O"/>
-                <MenuItem Header="_Save" Click="SaveFile_Click" InputGestureText="Ctrl+S" x:Name="SaveMenuItem"/>
-                <MenuItem Header="Save _As..." Click="SaveAsFile_Click"/>
+                <MenuItem Header="_Open .ks..." Click="OpenFile_Click" InputGestureText="Ctrl+O">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconDocument}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" Click="SaveFile_Click" InputGestureText="Ctrl+S" x:Name="SaveMenuItem">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconSave}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save _As..." Click="SaveAsFile_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconSaveAs}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Force _Save" Click="ForceSaveFile_Click" x:Name="ForceSaveMenuItem"/>
-                <MenuItem Header="Force Save _As..." Click="ForceSaveAsFile_Click"/>
+                <MenuItem Header="Force _Save" Click="ForceSaveFile_Click" x:Name="ForceSaveMenuItem">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconForce}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Force Save _As..." Click="ForceSaveAsFile_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconSaveAs}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="E_xit" Click="Exit_Click"/>
+                <MenuItem Header="E_xit" Click="Exit_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconExit}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="Copy original → translation (selected)" Click="CopyOriginal_Click"/>
-                <MenuItem Header="_Translate..." Click="Translate_Click" InputGestureText="Ctrl+T"/>
-                <MenuItem Header="_SuperImporter..." Click="SuperImporter_Click"/>
-                <MenuItem Header="_Auto-populate..." Click="AutoPopulate_Click"/>
+                <MenuItem Header="Copy original → translation (selected)" Click="CopyOriginal_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconCopy}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Translate..." Click="Translate_Click" InputGestureText="Ctrl+T">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconTranslate}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_SuperImporter..." Click="SuperImporter_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconImport}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Auto-populate..." Click="AutoPopulate_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconWand}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
                 <MenuItem Header="Filter: _untranslated only" Click="ToggleFilter_Click" x:Name="FilterMenuItem" IsCheckable="True"/>
                 <MenuItem Header="Create .bak backup on save (once)" Click="ToggleBackup_Click" x:Name="BackupMenuItem" IsCheckable="True" IsChecked="True"/>
                 <MenuItem Header="Create .baktl progress snapshot on save" Click="ToggleProgressBackup_Click" x:Name="ProgressBackupMenuItem" IsCheckable="True" IsChecked="True"/>
             </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Theme">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconPalette}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                    <MenuItem x:Name="LightThemeMenuItem" Header="Light" IsCheckable="True" Tag="Light" Click="ThemeMenuItem_Click">
+                        <MenuItem.Icon><Path Data="{StaticResource MenuIconSun}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="DarkThemeMenuItem" Header="Dark" IsCheckable="True" Tag="Dark" Click="ThemeMenuItem_Click">
+                        <MenuItem.Icon><Path Data="{StaticResource MenuIconMoon}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="DarkerThemeMenuItem" Header="Darker" IsCheckable="True" Tag="Darker" Click="ThemeMenuItem_Click">
+                        <MenuItem.Icon><Path Data="{StaticResource MenuIconMoonDark}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="TyranoScript Tags Reference..." Click="TagReference_Click"/>
-                <MenuItem Header="About" Click="About_Click"/>
+                <MenuItem Header="TyranoScript Tags Reference..." Click="TagReference_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconBook}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="About" Click="About_Click">
+                    <MenuItem.Icon><Path Data="{StaticResource MenuIconAbout}" Style="{StaticResource MenuItemIconStyle}"/></MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
-        <ToolBar DockPanel.Dock="Top" Background="{StaticResource BgPanel}">
-            <Button Content="Open" Click="OpenFile_Click" Style="{StaticResource ToolbarButtonStyle}"/>
-            <Button Content="Save" Click="SaveFile_Click" Style="{StaticResource ToolbarButtonStyle}"/>
-            <Separator/>
-            <Button x:Name="TranslateToolbarButton" Content="Translate" Click="Translate_Click" Style="{StaticResource ToolbarButtonStyle}"/>
-            <TextBlock Text="File:" VerticalAlignment="Center" Margin="8,0,4,0" Foreground="{StaticResource TextMuted}"/>
-            <TextBlock x:Name="FilePathText" Text="(no file)" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
-        </ToolBar>
+        <Border DockPanel.Dock="Top" Background="{DynamicResource BgPanel}">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Open" Click="OpenFile_Click" Style="{StaticResource ToolbarButtonStyle}"/>
+                <Button Content="Save" Click="SaveFile_Click" Style="{StaticResource ToolbarButtonStyle}"/>
+                <Border Width="1" Height="24" Margin="4,0" Background="{DynamicResource BorderColor}"/>
+                <Button x:Name="TranslateToolbarButton" Content="Translate" Click="Translate_Click" Style="{StaticResource ToolbarButtonStyle}"/>
+                <TextBlock Text="File:" VerticalAlignment="Center" Margin="8,0,4,0" Foreground="{DynamicResource TextMuted}"/>
+                <TextBlock x:Name="FilePathText" Text="(no file)" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}"/>
+            </StackPanel>
+        </Border>
 
-        <Border DockPanel.Dock="Bottom" Background="{StaticResource BgPanel}" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,0,0" Padding="10,6">
+        <Border DockPanel.Dock="Bottom" Background="{DynamicResource BgPanel}" BorderBrush="{DynamicResource BorderColor}" BorderThickness="0,1,0,0" Padding="10,6">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="StatusText" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+                <TextBlock x:Name="StatusText" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock Foreground="{StaticResource TextMuted}" Margin="0,0,12,0">
+                    <TextBlock Foreground="{DynamicResource TextMuted}" Margin="0,0,12,0">
                         <Run Text="Rows:"/>
                         <Run x:Name="RowCountRun" Text="0"/>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource Accent}">
+                    <TextBlock Foreground="{DynamicResource Accent}">
                         <Run Text="Translated:"/>
                         <Run x:Name="TranslatedCountRun" Text="0"/>
                     </TextBlock>
@@ -70,7 +110,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Margin="0,0,0,8" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap"
+            <TextBlock Grid.Row="0" Margin="0,0,0,8" Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap"
                        Text="Edit translations in the right column. Drag row headers to resize rows. Tyrano tags in [brackets] must stay identical to the original line."/>
 
             <DataGrid x:Name="TranslationGrid"
@@ -83,14 +123,14 @@
                       HeadersVisibility="All"
                       RowHeaderWidth="20"
                       GridLinesVisibility="All"
-                      HorizontalGridLinesBrush="{StaticResource BorderColor}"
-                      VerticalGridLinesBrush="{StaticResource BorderColor}"
-                      Background="{StaticResource BgRow}"
-                      RowBackground="{StaticResource BgRow}"
-                      AlternatingRowBackground="{StaticResource BgRowAlt}"
-                      BorderBrush="{StaticResource BorderColor}"
+                      HorizontalGridLinesBrush="{DynamicResource BorderColor}"
+                      VerticalGridLinesBrush="{DynamicResource BorderColor}"
+                      Background="{DynamicResource BgRow}"
+                      RowBackground="{DynamicResource BgRow}"
+                      AlternatingRowBackground="{DynamicResource BgRowAlt}"
+                      BorderBrush="{DynamicResource BorderColor}"
                       BorderThickness="1"
-                      Foreground="{StaticResource TextPrimary}"
+                      Foreground="{DynamicResource TextPrimary}"
                       SelectionMode="Extended"
                       SelectionUnit="Cell"
                       ClipboardCopyMode="ExcludeHeader"
@@ -104,9 +144,9 @@
                       FontSize="13">
                 <DataGrid.RowHeaderStyle>
                     <Style TargetType="DataGridRowHeader">
-                        <Setter Property="Background" Value="{StaticResource HeaderBg}"/>
-                        <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
-                        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                        <Setter Property="Background" Value="{DynamicResource HeaderBg}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextMuted}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
                         <Setter Property="BorderThickness" Value="0,0,1,1"/>
                         <Setter Property="Width" Value="20"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -115,9 +155,9 @@
                 </DataGrid.RowHeaderStyle>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="{StaticResource HeaderBg}"/>
-                        <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-                        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                        <Setter Property="Background" Value="{DynamicResource HeaderBg}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
                         <Setter Property="BorderThickness" Value="0,0,1,1"/>
                         <Setter Property="Padding" Value="10,8"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -125,14 +165,14 @@
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
-                        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
                         <Setter Property="BorderThickness" Value="0,0,1,0"/>
                         <Setter Property="Padding" Value="0"/>
                         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#3A3A55"/>
-                                <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                                <Setter Property="Background" Value="{DynamicResource SelectionBackground}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -161,7 +201,7 @@
                                         <Style TargetType="TextBox" BasedOn="{StaticResource EditableTranslationTextStyle}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding HasError}" Value="True">
-                                                    <Setter Property="Foreground" Value="#FF6B6B"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource ErrorText}"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
