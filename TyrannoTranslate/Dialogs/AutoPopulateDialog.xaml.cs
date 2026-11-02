@@ -23,7 +23,12 @@ public partial class AutoPopulateDialog : Window
     private void UpdateMatchCount()
     {
         var find = FindBox.Text;
-        var count = AutoPopulateService.CountMatches(_entries, find, MatchCaseBox.IsChecked == true, ExactMatchBox.IsChecked == true);
+        var count = AutoPopulateService.CountMatches(
+            _entries,
+            find,
+            MatchCaseBox.IsChecked == true,
+            ExactMatchBox.IsChecked == true,
+            SkipFilledBox.IsChecked == true);
         MatchCountText.Text = string.IsNullOrEmpty(find)
             ? "Enter text to search."
             : $"{count} row(s) will be updated.";

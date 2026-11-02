@@ -186,7 +186,9 @@ public partial class MainWindow : Window
         };
 
         if (dialog.ShowDialog() != true) return;
-        SaveToPath(dialog.FileName, ignoreValidation: true);
+        if (!SaveToPath(dialog.FileName, ignoreValidation: true))
+            return;
+
         _currentFilePath = dialog.FileName;
         FilePathText.Text = dialog.FileName;
         Title = $"TyrannoTranslate — {Path.GetFileName(dialog.FileName)}";
@@ -208,7 +210,9 @@ public partial class MainWindow : Window
         };
 
         if (dialog.ShowDialog() != true) return;
-        SaveToPath(dialog.FileName, ignoreValidation: false);
+        if (!SaveToPath(dialog.FileName, ignoreValidation: false))
+            return;
+
         _currentFilePath = dialog.FileName;
         FilePathText.Text = dialog.FileName;
         Title = $"TyrannoTranslate — {Path.GetFileName(dialog.FileName)}";
@@ -216,9 +220,9 @@ public partial class MainWindow : Window
         ForceSaveMenuItem.IsEnabled = true;
     }
 
-    private void SaveToPath(string path, bool ignoreValidation)
+    private bool SaveToPath(string path, bool ignoreValidation)
     {
-        if (_document == null) return;
+        if (_document == null) return false;
 
         var errorCount = _allEntries.Count(e => e.HasError);
         if (ignoreValidation && errorCount > 0)
@@ -229,9 +233,10 @@ public partial class MainWindow : Window
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
             if (confirm != MessageBoxResult.Yes)
-                return;
+                return false;
         }
 
+        var fileSaved = false;
         try
         {
             TranslationGrid.CommitEdit(DataGridEditingUnit.Cell, exitEditingMode: true);
@@ -250,6 +255,7 @@ public partial class MainWindow : Window
             }
 
             File.WriteAllText(path, content);
+            fileSaved = true;
 
             if (_progressBackupsEnabled)
             {
@@ -265,10 +271,12 @@ public partial class MainWindow : Window
                 ? (ignoreValidation ? "File force saved successfully.\n\n" : "File saved successfully.\n\n") + string.Join("\n\n", details)
                 : ignoreValidation ? "File force saved successfully." : "File saved successfully.";
             MessageBox.Show(this, message, ignoreValidation ? "Force Save" : "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            return true;
         }
         catch (Exception ex)
         {
             MessageBox.Show(this, ex.Message, "Save failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            return fileSaved;
         }
     }
 
@@ -293,23 +301,6 @@ public partial class MainWindow : Window
     {
         if (sender is TextBox textBox)
             textBox.Focus();
-    }
-
-    private void TranslationText_LostFocus(object sender, RoutedEventArgs e)
-    {
-        if (sender is not TextBox { DataContext: TranslationEntry entry } textBox)
-            return;
-
-        if (entry.Translation != textBox.Text)
-            entry.Translation = textBox.Text;
-
-        if (string.IsNullOrWhiteSpace(textBox.Text))
-        {
-            entry.ClearValidation();
-            return;
-        }
-
-        entry.ValidateBrackets();
     }
 
     private void TranslationGrid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)

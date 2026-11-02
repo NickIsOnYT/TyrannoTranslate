@@ -56,14 +56,8 @@ public partial class SuperImporterDialog : Window
             _loadedMemory = SuperImporterService.Import(dialog.FileName);
             SourceFileText.Text = $"Loaded: {System.IO.Path.GetFileName(dialog.FileName)} ({_loadedMemory.Count} entries)";
 
-            var matchCount = _loadedMemory.Count(m =>
-                _entries.Any(e => string.Equals(e.Original, m.Original, StringComparison.Ordinal)));
-
             var skipFilled = SkipFilledBox.IsChecked == true;
-            var willUpdate = _loadedMemory.Count(m =>
-                _entries.Any(e =>
-                    string.Equals(e.Original, m.Original, StringComparison.Ordinal) &&
-                    (!skipFilled || !e.IsTranslated)));
+            var willUpdate = SuperImporterService.CountMatches(_entries, _loadedMemory, skipFilled);
 
             if (willUpdate > 0)
             {

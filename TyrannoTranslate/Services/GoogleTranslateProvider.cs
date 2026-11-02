@@ -74,10 +74,6 @@ public sealed class GoogleTranslateProvider : ITranslationProvider
                 }
                 results[i] = sb.ToString();
             }
-            catch (Exception ex)
-            {
-                results[i] = $"[error: {ex.Message}]";
-            }
             finally
             {
                 semaphore.Release();

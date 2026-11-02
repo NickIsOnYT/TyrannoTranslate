@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -21,6 +22,19 @@ public static class TextSelectionContextHelper
         _savedSelectionStart = textBox.SelectionStart;
         _savedSelectionLength = textBox.SelectionLength;
         textBox.Focus();
+        if (_savedSelectionLength > 0)
+        {
+            textBox.SelectionStart = Math.Clamp(_savedSelectionStart, 0, textBox.Text.Length);
+            textBox.SelectionLength = Math.Clamp(_savedSelectionLength, 0, textBox.Text.Length - textBox.SelectionStart);
+        }
+
+        if (textBox.ContextMenu is { } contextMenu)
+        {
+            contextMenu.PlacementTarget = textBox;
+            contextMenu.Placement = PlacementMode.MousePoint;
+            contextMenu.IsOpen = true;
+        }
+
         e.Handled = true;
     }
 

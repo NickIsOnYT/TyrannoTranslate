@@ -3,7 +3,6 @@
 A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Made with Vibecoding)
 
 ## Features
-
 - Spreadsheet-style grid: **Original** (left) and **Translation** (right)
 - Parses Tyrano tags `[like this]` — they must stay identical in your translation.
 - Attempts to skip pure command lines. (`[bg ...]`, `[jump ...]`, labels `*feed`, etc.)
@@ -20,20 +19,19 @@ A desktop manual translator tool for **TyranoScript** `.ks` scenario files. (Mad
 ### Requirements
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (Windows)
-- [Python 3.14.3](https://www.python.org/downloads/release/python-3143/) (Windows)
+- [Python 3.14.10](https://www.python.org/downloads/release/python-31410/) (Windows)
 
 ### Run
-
 ```bash
-pip install -r requirements.txt
+py -3.14 -m pip install -r requirements.txt
 ```
+**Required for Argos Translate and LibreTranslate usage*
 
 ```bash
 dotnet run --project TyrannoTranslate
 ```
 
 ### Build
-
 ```bash
 dotnet publish TyrannoTranslate/TyrannoTranslate.csproj -c Release -r win-x64
 ```
@@ -41,7 +39,6 @@ dotnet publish TyrannoTranslate/TyrannoTranslate.csproj -c Release -r win-x64
 Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTranslate.exe`
 
 ## Usage
-
 1. **File → Open** and choose a `.ks` file (e.g. `data/scenario/event.ks`).
 2. Type English in the **Translation** column. Copy `[p]`, `[lr]`, `[l]` and other tags from the original line.
 3. **Edit → Copy original → translation** fills the right column from the left (handy as a starting point).
@@ -51,9 +48,11 @@ Output: `TyrannoTranslate/bin/Release/net8.0-windows/win-x64/publish/TyrannoTran
    - `filename.ks.baktl` — snapshot of your current in-memory translations; **updates on every save** while enabled.
    - (If you want to restore a backup, please override the main file with one of the backup files.)
 6. **Edit → Auto-populate** lets you fill any repeating dialogues/names with only a few clicks.
+   - **Exact match** limits matches to originals that equal the search text; otherwise matching text is replaced within the original.
+   - **Don't replace filled translations** leaves existing translations unchanged.
+7. **Edit → SuperImporter** exports translated originals to XML or imports translations for exact original-text matches. Its **Don't replace filled translations** option preserves existing translations.
 
 ## Example
-
 | # | Ln | St | Original | Translation |
 |-|-|-|-|-|
 | 1 | 12 | ✓ | `絶対的なゲーム[p]` | `Absolute Gaming[p]` |

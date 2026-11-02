@@ -4,12 +4,14 @@ namespace TyrannoTranslate.Services;
 
 public static class AutoPopulateService
 {
-    public static int CountMatches(IEnumerable<TranslationEntry> entries, string find, bool matchCase, bool exactMatch)
+    public static int CountMatches(IEnumerable<TranslationEntry> entries, string find, bool matchCase, bool exactMatch, bool skipFilled)
     {
         if (string.IsNullOrEmpty(find))
             return 0;
 
-        return entries.Count(e => Matches(e.Original, find, matchCase, exactMatch));
+        return entries.Count(e =>
+            (!skipFilled || !e.IsTranslated) &&
+            Matches(e.Original, find, matchCase, exactMatch));
     }
 
     public static int Apply(IEnumerable<TranslationEntry> entries, string find, string replace, bool matchCase, bool exactMatch, bool skipFilled)

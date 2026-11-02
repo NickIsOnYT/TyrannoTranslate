@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using TyrannoTranslate.Helpers;
 
 namespace TyrannoTranslate.Services;
 
@@ -18,9 +19,9 @@ public sealed class ArgosTranslateProvider : ITranslationProvider
         IReadOnlyList<string> texts, string sourceLang, string targetLang,
         CancellationToken ct = default)
     {
-        var pythonExe = FindPython();
+        var pythonExe = PythonInterpreterLocator.FindPython();
         if (pythonExe == null)
-            throw new InvalidOperationException("Python not found. Please install Python 3.");
+            throw new InvalidOperationException("Python 3.14 not found. Please install Python 3.14.10.");
 
         var scriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scripts", "argos_translate.py");
         if (!File.Exists(scriptPath))
@@ -87,30 +88,4 @@ public sealed class ArgosTranslateProvider : ITranslationProvider
         throw new InvalidOperationException(error ?? "Unknown error");
     }
 
-    private static string? FindPython()
-    {
-        foreach (var name in new[] { "python", "python3", "py" })
-        {
-            try
-            {
-                using var proc = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = name,
-                        Arguments = "--version",
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    }
-                };
-                proc.Start();
-                proc.WaitForExit(2000);
-                if (proc.ExitCode == 0)
-                    return name;
-            }
-            catch { }
-        }
-        return null;
-    }
 }

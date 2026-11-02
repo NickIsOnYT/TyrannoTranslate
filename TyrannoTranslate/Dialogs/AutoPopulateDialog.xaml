@@ -39,7 +39,7 @@
                   Foreground="{DynamicResource TextPrimary}" Checked="Option_Changed" Unchecked="Option_Changed"/>
 
         <CheckBox x:Name="SkipFilledBox" Grid.Row="6" Content="Don't replace filled translations" Margin="0,0,0,6"
-                  Foreground="{DynamicResource TextPrimary}" IsChecked="True"/>
+                  Foreground="{DynamicResource TextPrimary}" IsChecked="True" Checked="Option_Changed" Unchecked="Option_Changed"/>
 
         <CheckBox x:Name="MatchCaseBox" Grid.Row="7" Content="Match case" Margin="0,0,0,10"
                   Foreground="{DynamicResource TextPrimary}" Checked="Option_Changed" Unchecked="Option_Changed"/>

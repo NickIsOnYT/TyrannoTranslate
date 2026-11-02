@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
+using TyrannoTranslate.Helpers;
 using TyrannoTranslate.Models;
 using TyrannoTranslate.Services;
 
@@ -226,10 +227,10 @@ public partial class TranslateDialog : Window
             return;
         }
 
-        var pythonExe = FindPython();
+        var pythonExe = PythonInterpreterLocator.FindPython();
         if (pythonExe == null)
         {
-            ModelStatusText.Text = "Python not found";
+            ModelStatusText.Text = "Python 3.14 not found";
             return;
         }
 
@@ -436,33 +437,6 @@ public partial class TranslateDialog : Window
         SaveSettings();
         if (_providers[3] is LibreTranslateProvider libre)
             libre.ApiKey = LibreApiKeyBox.Password;
-    }
-
-    private static string? FindPython()
-    {
-        foreach (var name in new[] { "python", "python3", "py" })
-        {
-            try
-            {
-                using var proc = new System.Diagnostics.Process
-                {
-                    StartInfo = new System.Diagnostics.ProcessStartInfo
-                    {
-                        FileName = name,
-                        Arguments = "--version",
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    }
-                };
-                proc.Start();
-                proc.WaitForExit(2000);
-                if (proc.ExitCode == 0)
-                    return name;
-            }
-            catch { }
-        }
-        return null;
     }
 
     private void SetControlsEnabled(bool enabled)

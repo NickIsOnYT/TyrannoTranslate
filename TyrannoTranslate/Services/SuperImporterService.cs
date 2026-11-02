@@ -45,6 +45,18 @@ public static class SuperImporterService
             .ToList();
     }
 
+    public static int CountMatches(IEnumerable<TranslationEntry> entries, IReadOnlyList<TranslationMemoryEntry> memory, bool skipFilled)
+    {
+        var originals = memory
+            .Where(m => !string.IsNullOrEmpty(m.Original))
+            .Select(m => m.Original)
+            .ToHashSet(StringComparer.Ordinal);
+
+        return entries.Count(entry =>
+            (!skipFilled || !entry.IsTranslated) &&
+            originals.Contains(entry.Original));
+    }
+
     public static int Apply(IEnumerable<TranslationEntry> entries, IReadOnlyList<TranslationMemoryEntry> memory, bool skipFilled)
     {
         var count = 0;
