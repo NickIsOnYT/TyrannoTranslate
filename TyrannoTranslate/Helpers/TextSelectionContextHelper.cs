@@ -88,4 +88,5 @@ public static class TextSelectionContextHelper
 
         return null;
     }
+
 }

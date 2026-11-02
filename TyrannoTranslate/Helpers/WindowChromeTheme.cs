@@ -16,6 +16,8 @@ public static class WindowChromeTheme
 
     public static void Attach(Window window)
     {
+        window.Opacity = 0;
+        window.ContentRendered += OnContentRendered;
         window.SourceInitialized += OnSourceInitialized;
     }
 
@@ -25,6 +27,13 @@ public static class WindowChromeTheme
         var background = GetColor("BgDark", Color.FromRgb(30, 30, 46));
         var text = GetColor("TextPrimary", Color.FromRgb(232, 232, 240));
         var border = GetColor("BorderColor", Color.FromRgb(61, 61, 92));
+        if (HwndSource.FromHwnd(handle) is { } source)
+            source.CompositionTarget.BackgroundColor = background;
+
+        if (!window.AllowsTransparency &&
+            Application.Current.Resources["BgDark"] is SolidColorBrush backgroundBrush)
+            window.Background = backgroundBrush;
+
         var darkMode = (background.R * 299 + background.G * 587 + background.B * 114) / 1000 < 128 ? 1 : 0;
         var darkModeAttribute = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
             ? UseImmersiveDarkMode
@@ -59,6 +68,15 @@ public static class WindowChromeTheme
 
         window.SourceInitialized -= OnSourceInitialized;
         Apply(window);
+    }
+
+    private static void OnContentRendered(object? sender, EventArgs e)
+    {
+        if (sender is not Window window)
+            return;
+
+        window.ContentRendered -= OnContentRendered;
+        window.Opacity = 1;
     }
 
     [DllImport("dwmapi.dll", PreserveSig = true)]

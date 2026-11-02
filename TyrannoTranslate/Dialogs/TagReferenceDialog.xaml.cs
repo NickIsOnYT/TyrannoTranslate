@@ -19,7 +19,7 @@ public partial class TagReferenceDialog : Window
 
     private void BuildContent()
     {
-        AddSection("Text Flow",
+        AddSection("Text Flow", "It's a lowercase L, not uppercase I",
             ("[p]", "Wait for click, clear text box, advance to next page"),
             ("[l]", "Wait for click, continue on same line"),
             ("[r]", "Line break (new paragraph)"),
@@ -101,14 +101,28 @@ public partial class TagReferenceDialog : Window
 
     private void AddSection(string title, params (string tag, string desc)[] rows)
     {
+        AddSection(title, null, rows);
+    }
+
+    private void AddSection(string title, string? note, params (string tag, string desc)[] rows)
+    {
         var header = new TextBlock
         {
-            Text = title,
             FontSize = 17,
             FontWeight = FontWeights.SemiBold,
             Foreground = FindResource("Accent") as Brush ?? Brushes.CornflowerBlue,
             Margin = new Thickness(0, 0, 0, 8)
         };
+        header.Inlines.Add(new Run(title));
+        if (note != null)
+        {
+            header.Inlines.Add(new Run($"  ({note})")
+            {
+                FontSize = 12,
+                FontWeight = FontWeights.Normal,
+                Foreground = FindResource("TextMuted") as Brush ?? Brushes.Gray
+            });
+        }
         ContentPanel.Children.Add(header);
 
         foreach (var (tag, desc) in rows)

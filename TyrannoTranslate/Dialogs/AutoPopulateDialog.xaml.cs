@@ -8,6 +8,7 @@ namespace TyrannoTranslate.Dialogs;
 public partial class AutoPopulateDialog : Window
 {
     private readonly IReadOnlyList<TranslationEntry> _entries;
+    private bool _isInitialized;
 
     public AutoPopulateDialog(Window owner, IEnumerable<TranslationEntry> entries)
     {
@@ -15,12 +16,21 @@ public partial class AutoPopulateDialog : Window
         Owner = owner;
         _entries = entries.ToList();
         InitializeComponent();
+        _isInitialized = true;
         UpdateMatchCount();
     }
 
-    private void FindBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) => UpdateMatchCount();
+    private void FindBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        if (_isInitialized)
+            UpdateMatchCount();
+    }
 
-    private void Option_Changed(object sender, RoutedEventArgs e) => UpdateMatchCount();
+    private void Option_Changed(object sender, RoutedEventArgs e)
+    {
+        if (_isInitialized)
+            UpdateMatchCount();
+    }
 
     private void UpdateMatchCount()
     {
